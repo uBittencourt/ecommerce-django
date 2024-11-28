@@ -6,9 +6,30 @@ class Pedido(models.Model):
     total = models.FloatField()
     status = models.CharField(max_length=1, default='C', choices=(
         ('A', 'Aprovado'),
-        ('C', 'Criado')  
-        ('R', 'Reprovado')  
-        ('P', 'Pendente')  
-        ('E', 'Enviado')  
-        ('F', 'Finalizado')  
+        ('C', 'Criado'),
+        ('R', 'Reprovado'),  
+        ('P', 'Pendente'),
+        ('E', 'Enviado'),
+        ('F', 'Finalizado'),  
     ))
+
+    def __str__(self):
+        return f'Pedido N° {self.pk}'
+    
+
+class ItemPedido(models.Model):
+    class Meta:
+        verbose_name_plural = 'ItensPedido'
+    
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    produto = models.CharField(max_length=100)
+    produtoId = models.PositiveIntegerField()
+    variacao = models.CharField(max_length=255)
+    variacaoId = models.PositiveIntegerField()
+    preco = models.FloatField()
+    preco_promocional = models.FloatField(default=0)
+    quantidade = models.PositiveIntegerField()
+    imagem = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return f'Item do {self.pedido}'
