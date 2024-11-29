@@ -3,7 +3,7 @@ from pedido import models
 
 class ItemPedidoInline(admin.TabularInline):
     model = models.ItemPedido
-    # extra = 1
+    extra = 1
 
 
 @admin.register(models.Pedido)
