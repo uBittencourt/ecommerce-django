@@ -12,8 +12,8 @@
                 <p class="text-product">{{ produto.descricao_curta }}</p>
                 {% if produto.preco_marketing_promocional %}
                     <div class='product-price'>
-                        <p class='price' id="price-variation">{{ produto.preco_marketing_promocional|formata_preco }}</p>
-                        <p class='price text-muted' id="promotional-price-variation">{{ produto.preco_marketing|formata_preco }}</p>
+                        <p class='price' id="promotional-price-variation">{{ produto.preco_marketing_promocional|formata_preco }}</p>
+                        <p class='price text-muted' id="price-variation">{{ produto.preco_marketing|formata_preco }}</p>
                     </div>
                 {% else %}
                     <div class='product-price'>
