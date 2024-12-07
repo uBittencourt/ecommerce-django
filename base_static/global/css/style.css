@@ -126,3 +126,75 @@ footer{
     margin-top: 10px;
     height: 6vh;
 }
+
+/* ESTILIZAÇÃO CARRINHO */
+.cart{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 70px;
+}
+
+.title-table th{
+    text-align: start;
+}
+
+.pay-table{
+    margin-top: 20px;
+}
+
+.pay-btn{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.pay-btn button{
+    width: 80%;
+    height: 7vh;
+}
+
+.products-table{
+    margin-top: 20px;
+    background-color: aqua;
+}
+
+.products-table img{
+    width: 150px;
+    height: 150px;
+}
+
+.img{
+    width: 200px;
+    height: 200px;
+}
+
+/* ESTILIZAÇÃO DAS MENSAGENS */
+.message {
+    margin: var(--spacing) auto;
+    margin-top: calc(var(--spacing) * 2);
+    padding: var(--spacing);
+    text-align: center;
+    border-radius: var(--default-border-radius);
+    font-size: var(--smaller-font-size);
+}
+
+.message.success {
+    background: rgba(0, 255, 0, 0.3);
+    border: 1px solid rgba(0, 255, 0, 90%);
+}
+
+.message.error {
+    background: rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(255, 0, 0, 90%);
+}
+
+.message.warning {
+    background: rgba(255, 255, 0, 0.3);
+    border: 1px solid rgba(255, 255, 0, 90%);
+}
+
+.message.info {
+    background: rgba(38, 0, 255, 0.3);
+    border: 1px solid rgba(4, 0, 255, 0.9);
+}

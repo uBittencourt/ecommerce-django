@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib import messages
 
 from produto import models
 
@@ -31,7 +32,10 @@ class AdicionarProduto(View):
         variation_id = self.request.GET.get('vid')
 
         if not variation_id:
-            # TODO: adicionar mensagens de conclusao e erro
+            messages.error(
+                self.request,
+                'Produto não existe.'    
+            )
             return redirect(http_referer)
 
         variation = get_object_or_404(models.Variacao, id=variation_id)
@@ -42,12 +46,16 @@ class AdicionarProduto(View):
         variation_name = variation.nome or ''
         unit_price = variation.preco
         unit_promotional_price = variation.preco_promocional
+        amount = 1
         slug = product.slug
         image = product.imagem.name
 
 
         if variation.estoque < 1:
-            # TODO: mensagem de erro de estoque 
+            messages.error(
+                self.request,
+                f'Estoque insulficiente'    
+            ) 
             return redirect(http_referer)
 
         if not self.request.session.get('cart'):
@@ -61,7 +69,12 @@ class AdicionarProduto(View):
             amount_cart += 1
 
             if variation.estoque < amount_cart:
-                # TODO: mensagem de erro de quantidade
+                messages.error(
+                    self.request,
+                    f'Estoque insulficiente para {amount_cart}x no '
+                    f'produto "{product_name} {variation_name}". Adicionamos {variation.estoque}x '
+                    'no seu carrinho.'    
+                )
                 amount_cart = variation.estoque
                 return redirect(http_referer)
 
@@ -85,13 +98,46 @@ class AdicionarProduto(View):
 
         self.request.session.save()
 
-        # TODO: mensagem de sucesso
+        try:
+            messages.success(
+                self.request, 
+                f'Produto {product_name} {variation_name} adicionado ao seu '
+                f'carrinho {amount_cart}x'
+            )
+        except:
+            messages.success(
+                self.request, 
+                f'Produto {product_name} {variation_name} adicionado ao seu '
+                f'carrinho {amount}x'
+            )
         return redirect(http_referer)
 
 
 class RemoverProduto(View):
     def get(self, *args, **kwargs):
-        return HttpResponse('Remover Produto')
+        http_referer = self.request.META.get('HTTP_REFERER', reverse('produto:lista'))
+        variation_id = self.request.GET.get('vid')
+
+        if not variation_id:
+            return redirect(http_referer)
+        
+        if not self.request.session.get('cart'):
+            return redirect(http_referer)
+        
+        if variation_id not in self.request.session['cart']:
+            return redirect(http_referer)
+        
+        cart = self.request.session['cart'][variation_id]
+
+        messages.success(
+            self.request,
+            f'Produto {cart['product_name']} {cart['variation_name']} '
+            f'removido do seu carrinho.'    
+        )
+
+        del self.request.session['cart'][variation_id]
+        self.request.session.save()
+        return redirect(http_referer)
 
 
 class Finalizar(View):

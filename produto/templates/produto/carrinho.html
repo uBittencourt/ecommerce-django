@@ -1,5 +1,66 @@
 {% extends "global/base.html" %}
+{% load omfilters %}
+{% load static %}
 
 {% block content %}
-    {{ request.session.cart }}
-{% endblock content %}
+    <section class="cart">
+        {% if request.session.cart %}
+            <div>
+                <h1>Carrinho de Compras</h1>
+                <p>Aqui estão os produtos que você escolheu</p>
+            </div>
+            
+            <table class="products-table">
+                <tr class="title-table">
+                    <th>Imagem</th>   
+                    <th>Produto</th>   
+                    <th>Variação</th>   
+                    <th>Quantidade</th>   
+                    <th>Total</th>  
+                    <th></th> 
+                </tr>
+
+                {% for produto in request.session.cart.values %}
+                    <tr class="teste">
+                        <td class="img">
+                            <img src="{% get_media_prefix %}{{ produto.image }}" alt="{{ produto.product_name }}">
+                        </td>
+                        <td>
+                            <a href="{% url 'produto:detalhe' produto.slug %}">
+                                {{ produto.product_name }}
+                            </a>
+                        </td>
+                        <td>{{ produto.variation_name }}</td>
+                        <td>{{ produto.amount }}x</td>
+
+                        {% if produto.quantitative_promotional_price %}
+                            <td>{{ produto.quantitative_promotional_price|formata_preco }}</td>
+                        {% else %}    
+                            <td>{{ produto.quantitative__price|formata_preco }}</td>
+                        {% endif %}
+                        <td>
+                            <a href="{% url 'produto:remover' %}?vid={{ produto.variation_id }}">
+                                Remover
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+            <table class="pay-table">
+                <tr>
+                    <td>Total</td>
+                    <td>{{ request.session.cart|cart_totals|formata_preco }}</td>
+                    <td class="pay-btn">
+                        <button>Finalizar Compra</button>
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            <div>
+                <h1>Carrinho de Compras</h1>
+                <p>Seu carrinho está vazio, adicione produtos.</p>
+            </div>
+        {% endif %}
+    </section>
+    {% endblock content %}
