@@ -32,7 +32,7 @@ def valida_cpf(cpf):
     sequencia = novo_cpf == str(novo_cpf[0]) * len(cpf)
 
     # DESCOBRI QUE SEQUÊNCIAS AVALIAVAM COMO VERDADEIRO, ENTÃO TAMBÉM ADICIONEI ESSA CHECAGEM
-    if cpf == novo_cpf and not sequencia:
+    if cpf[:-2] == novo_cpf[:-2] and not sequencia:
         return True
     else:
         return False
