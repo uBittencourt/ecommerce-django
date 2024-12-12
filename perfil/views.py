@@ -1,9 +1,10 @@
 import copy
 from django.views import View
+from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404, redirect
 
 from perfil import models
 from perfil import forms
@@ -104,7 +105,13 @@ class Criar(BasePerfil):
 
         self.request.session['cart'] = self.carrinho
         self.request.session.save()
-        return self.renderizar
+
+        messages.sucess(
+            self.request,
+            'Cadastro realizado com sucesso!'
+        )
+
+        return self.redirect('perfil:criar')
 
 
 class Update(BasePerfil):
@@ -112,10 +119,39 @@ class Update(BasePerfil):
 
 
 class Login(View):
-    def get(self, *args, **kwargs):
-        return HttpResponse('Login')
+    def post(self, *args, **kwargs):
+        username = self.request.POST.get('username')
+        password = self.request.POST.get('password')
+
+        if not username or not password:
+            messages.error(
+                self.request, 
+                'Usuário ou senha inválidos'    
+            )
+            return redirect('perfil:criar')
+        
+        usuario = authenticate(
+            self.request,
+            username=username,
+            password=password    
+        )
+
+        if not usuario:
+            messages.error(
+                self.request, 
+                'Usuário ou senha inválidos'    
+            )
+            return redirect('perfil:criar')
+            
+        login(self.request, user=usuario)
+        messages.success(
+            self.request, 
+            'Login efetuado com sucesso'    
+        )
+        return redirect('produto:carrinho')
 
 
 class Logout(View):
    def get(self, *args, **kwargs):
-        return HttpResponse('Logout')
+        logout(self.request)
+        return redirect('produto:lista')

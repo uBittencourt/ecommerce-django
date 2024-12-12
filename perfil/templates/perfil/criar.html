@@ -7,12 +7,25 @@
     {% if not request.user.is_authenticated %}
         <div>
             <h1>Login</h1>
+            <p>Já possui conta? Basta apenas logar abaixo!</p>
         </div>
+
+        <form method='POST' action="{% url "perfil:login" %}">
+            {% csrf_token %}
+            <label>Usuário</label>
+            <input type='text' name='username'> 
+        
+            <label>Senha</label>
+            <input type='password' name='password'> 
+
+            <button type='submit'>Enviar</button>
+        </form>
     {% endif %}
 
     <div>
         {% block title-registration %}
             <h1>Cadastro</h1>
+            <p>Não tem conta? Utilize o formulário abaixo e crie já!</p>
         {% endblock title-registration %}
         
         <form method='POST' action="">
