@@ -1,0 +1,109 @@
+{% extends "global/base.html" %}
+{% load omfilters %}
+{% load static %}
+
+{% block content %}
+    <h1>Resumo da Compra</h1>
+    <div>
+        <h3>Dados do Usuário</h3>
+        <p>Caso precise editar, <a href="{% url 'perfil:criar' %}">clique aqui</a></p>
+        <dl>
+            <dt>Nome:</dt>
+            <dd>{{ usuario.usuario.first_name }}</dd>
+            <dt>Sobrenome:</dt>
+            <dd>{{ usuario.usuario.last_name }}</dd>
+            
+            <dt>Idade:</dt>
+            <dd>{{ usuario.idade }}</dd>
+            <dt>Nascimento:</dt>
+            <dd>{{ usuario.data_nascimento }}</dd>
+            
+            <dt>CPF:</dt>
+            <dd>{{ usuario.cpf }}</dd>
+            <dt>Email:</dt>
+            <dd>{{ usuario.usuario.email }}</dd>
+        </dl>
+
+        <h3>Dados de Endereço</h3>
+        <p>Caso precise editar, <a href="{% url 'perfil:criar' %}">clique aqui</a></p>
+        <dl>
+            <dt>Endereço:</dt>
+            <dd>{{ usuario.endereco }}</dd>
+            <dt>Complemento:</dt>
+            <dd>{{ usuario.complemento }}</dd>
+            
+            <dt>Cidade:</dt>
+            <dd>{{ usuario.cidade }}</dd>
+            <dt>CEP:</dt>
+            <dd>{{ usuario.cep }}</dd>
+            
+            <dt>Número:</dt>
+            <dd>{{ usuario.numero }}</dd>
+            <dt>Bairro:</dt>
+            <dd>{{ usuario.bairro }}</dd>
+
+            <dt>Estado</dt>
+            <dd>{{ usuario.estado }}</dd>
+        </dl>
+
+    </div>
+    <div>
+        <h1>Carrinho de Compras</h1>
+        <p>Aqui estão os produtos que você escolheu</p>
+    </div>
+    
+    <table class="products-table">
+        <tr class="title-table">
+            <th>Imagem</th>   
+            <th>Produto</th>   
+            <th>Variação</th>   
+            <th>Quantidade</th>   
+            <th>Total</th>  
+            <th></th> 
+        </tr>
+
+        {% for produto in carrinho.values %}
+            <tr class="teste">
+                <td class="img">
+                    <img src="{% get_media_prefix %}{{ produto.image }}" alt="{{ produto.product_name }}">
+                </td>
+                <td>
+                    <a href="{% url 'produto:detalhe' produto.slug %}">
+                        {{ produto.product_name }}
+                    </a>
+                </td>
+                <td>{{ produto.variation_name }}</td>
+                <td>{{ produto.amount }}x</td>
+
+                {% if produto.quantitative_promotional_price %}
+                    <td>{{ produto.quantitative_promotional_price|formata_preco }}</td>
+                {% else %}    
+                    <td>{{ produto.quantitative__price|formata_preco }}</td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'produto:remover' %}?vid={{ produto.variation_id }}">
+                        Remover
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <table class="pay-table">
+        <tr>
+            <td>Total</td>
+            <td>{{ carrinho|cart_totals|formata_preco }}</td>
+            <td class="pay-btn">
+                {% if not request.user.is_authenticated %}
+                    <a href="{% url 'perfil:criar' %}">
+                        <button>Comprar</button>
+                    </a>
+                {% else %}
+                    <a href="{% url 'produto:finalizar' %}">
+                        <button>Comprar</button>
+                    </a>    
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endblock content %}

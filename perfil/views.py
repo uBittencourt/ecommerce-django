@@ -56,6 +56,10 @@ class BasePerfil(View):
 class Criar(BasePerfil):
     def post(self, *args, **kwargs):
         if not self.userform.is_valid() or not self.perfilform.is_valid():
+            messages.error(
+                self.request,
+                'Dados inválidos, por favor verifique as informações enviadas'
+            )
             return self.renderizar
 
         username = self.userform.cleaned_data.get('username')
@@ -106,12 +110,12 @@ class Criar(BasePerfil):
         self.request.session['cart'] = self.carrinho
         self.request.session.save()
 
-        messages.sucess(
+        messages.success(
             self.request,
             'Cadastro realizado com sucesso!'
         )
 
-        return self.redirect('perfil:criar')
+        return redirect('perfil:criar')
 
 
 class Update(BasePerfil):

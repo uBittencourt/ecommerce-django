@@ -52,7 +52,15 @@
                     <td>Total</td>
                     <td>{{ request.session.cart|cart_totals|formata_preco }}</td>
                     <td class="pay-btn">
-                        <button>Finalizar Compra</button>
+                        {% if not request.user.is_authenticated %}
+                            <a href="{% url "perfil:criar" %}">
+                                <button>Comprar</button>
+                            </a>
+                        {% else %}
+                            <a href="{% url "produto:finalizar" %}">
+                                <button>Comprar</button>
+                            </a>    
+                        {% endif %}
                     </td>
                 </tr>
             </table>

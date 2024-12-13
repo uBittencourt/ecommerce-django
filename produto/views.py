@@ -6,7 +6,8 @@ from django.views.generic.detail import DetailView
 from django.contrib import messages
 
 from produto import models
-
+from perfil.models import PerfilUsuario
+from django.contrib.auth.models import User
 
 class ListaProdutos(ListView):
     model = models.Produto
@@ -142,7 +143,37 @@ class RemoverProduto(View):
 
 class Finalizar(View):
     def get(self, *args, **kwargs):
-        return HttpResponse('Finalizar')
+        if not self.request.user.is_authenticated:
+            return redirect('perfil:criar')
+        
+        perfil = PerfilUsuario.objects.filter(usuario=self.request.user).exists()
+        data_perfil = get_object_or_404(PerfilUsuario, usuario=self.request.user)
+
+        if not perfil:
+            messages.error(
+                self.request,
+                'Usuário sem perfil.'
+            )
+            return redirect('perfil:criar')
+
+        if not self.request.session.get('cart'):
+            messages.error(
+                self.request,
+                'Carrinho vazio.'
+            )
+            return redirect('produto:lista')
+
+        print(self.request.session['cart'])
+        context = {
+            'usuario': data_perfil,
+            'carrinho': self.request.session['cart']    
+        }
+
+        return render(
+            self.request, 
+            'produto/finalizar.html',
+            context
+        )
 
 
 class Carrinho(View):
