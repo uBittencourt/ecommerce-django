@@ -12,16 +12,17 @@
                 <p class="text-product">{{ produto.descricao_curta }}</p>
                 {% if produto.preco_marketing_promocional %}
                     <div class='product-price'>
-                        <p class='price' id="promotional-price-variation">{{ produto.preco_marketing_promocional|formata_preco }}</p>
-                        <p class='price text-muted' id="price-variation">{{ produto.preco_marketing|formata_preco }}</p>
+                        <p class='price-final' id="promotional-price-variation">{{ produto.preco_marketing_promocional|formata_preco }}</p>
+                        <p class='price-old text-muted' id="price-variation">{{ produto.preco_marketing|formata_preco }}</p>
                     </div>
                 {% else %}
                     <div class='product-price'>
-                        <p class='price' id="price-variation">{{ produto.preco_marketing|formata_preco }}</p>
+                        <p class='price-final' id="price-variation">{{ produto.preco_marketing|formata_preco }}</p>
                     </div>
                 {% endif %}
             </div>
             <form action="{% url "produto:adicionar" %}" class="form-add">
+                <label>Select variation:</label>
                 <select name="vid" id="select-variation" class="select-variation">
                     {% for variacao in produto.variacao_set.all %}
                         {% if variacao.preco_promocional %}

@@ -4,50 +4,50 @@
 {% block title %}E-commerce{% endblock title %}
 
 {% block content %}
-    <main>
-        {% for produto in produtos %}
-            <div class="product-card">
-                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-                <div class="text-card">
-                    <p>{{ produto.nome }}</p>
-                    <p>{{ produto.descricao_curta}}</p>
-                </div>
-                {% if produto.preco_marketing_promocional %}
-                    <div class='product-price'>
-                        <p class='price'>{{ produto.preco_marketing_promocional|formata_preco }}</p>
-                        <p class='price text-muted'>{{ produto.preco_marketing|formata_preco }}</p>
-                    </div>
-                {% else %}
-                    <div class='product-price'>
-                        <p class='price'>{{ produto.preco_marketing|formata_preco }}</p>
-                    </div>
-                {% endif %}
-                <a href="{{ produto.slug }}">
-                    <button>Comprar</button>
-                </a>
-            </div>
-        {% endfor %}
-
-        {% comment %} {% include "global/partials/pagination.html" %} {% endcomment %}
-
-        {% comment %} <div class="product-card">
-            <img src="../../media/produtos/2024/11/radar-ev-liquid-metal.jpg" alt="">
-            <div class="text-card">
-                <p>Lorem ipsum dolor sit amet.</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias beatae fugiat reiciendis perspiciatis dicta dolorem, ducimus illum mollitia delectus.</p>
-            </div>
-            <p>R$50,00</p>
-            <button>Comprar</button>
+    <section class="section-products">
+        <img class='img-banner' src="../../../media/assets/banner.jpg" alt="banner">
+        <div class="teste">
+            <p class="title-banner">RUN<span>NER</span></p>
         </div>
 
-        <div class="product-card">
-            <img src="../../media/produtos/2024/11/radar-ev-liquid-metal.jpg" alt="">
-            <div class="text-card">
-                <p>Lorem ipsum dolor sit amet.</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias beatae fugiat reiciendis perspiciatis dicta dolorem, ducimus illum mollitia delectus.</p>
+        <div class="model-products">
+            <div class="nav-products">
+                <h2>All Products</h2>
+                <div class="search-products">
+                    <i class="bi bi-search"></i>
+                    <form method ="GET" action="{% url 'produto:busca' %}">
+                        <input type="search" placeholder="Enter here..." name="termo" value="{{ request.GET.termo }}">
+                        <button>Search</button>
+                    </form>
+                </div>
             </div>
-            <p>R$50,00</p>
-            <button>Comprar</button>
-        </div> {% endcomment %}
-    </main>
+
+            <div class="products">
+                {% for produto in produtos %}
+                <div class="product-card">
+                    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                    <div class="text-card">
+                        <p>{{ produto.nome }}</p>  
+                        {% if produto.preco_marketing_promocional %}
+                            <div class='product-price'>
+                                <p class='price'>{{ produto.preco_marketing_promocional|formata_preco }}</p>
+                                <p class='price text-muted'>{{ produto.preco_marketing|formata_preco }}</p>
+                            </div>
+                        {% else %}
+                            <div class='product-price'>
+                                <p class='price'>{{ produto.preco_marketing|formata_preco }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'produto:detalhe' produto.slug %}">
+                        <button>Buy Now</button>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% include "global/partials/pagination.html" %}
+        </div>
+    </section>
+
+    {% include "global/partials/footer.html" %}
 {% endblock content %}

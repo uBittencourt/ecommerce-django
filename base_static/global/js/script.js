@@ -22,3 +22,16 @@
         }
     })
 })();
+
+document.addEventListener('DOMContentLoaded', function(){
+    var productList = document.querySelector('.products');
+    var productItems = productList.querySelectorAll('.product-card');
+    var productCount = productItems.length;
+
+    if(productCount > 3){
+        model = document.querySelector('.section-products')
+        model.classList.add('more-products')
+    } else {
+        model.classList.remove('more-products')
+    }
+})

@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib import messages
+from django.db.models import Q
 
 from produto import models
 from perfil.models import PerfilUsuario
@@ -13,7 +14,22 @@ class ListaProdutos(ListView):
     model = models.Produto
     template_name = 'produto/lista.html'
     context_object_name = 'produtos'
-    # paginate_by = 12
+    paginate_by = 6
+
+
+class Busca(ListaProdutos):
+    def get_queryset(self):
+        termo = self.request.GET.get('termo') or self.request.session['termo']
+        qs = super().get_queryset()
+        
+        if not termo:
+            return qs 
+        
+        self.request.session['termo'] = termo
+    
+        qs = qs.filter(nome__icontains=termo)
+        self.request.session.save()
+        return qs
 
 
 class DetalheProduto(DetailView):

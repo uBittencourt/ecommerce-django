@@ -13,3 +13,11 @@ def cart_totals(cart):
         else item.get('quantitative_price') 
         for item in cart.values()  
     ])
+
+
+def previous_page(num):
+    return num - 1
+
+
+def next_page(num):
+    return num + 1
