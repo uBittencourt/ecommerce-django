@@ -4,13 +4,13 @@
             <li>Logo</li>
         </ul>
         <ul class="links-nav">
-            <li><a href="">Product</a></li>
-            <li><a href="">Home</a></li>
-            <li><a href="">Contact</a></li>
+            <li><a href="{% url "produto:lista" %}">Product</a></li>
+            <li><a href="{% url "produto:lista" %}">Home</a></li>
+            <li><a href="{% url "produto:lista" %}">Contact</a></li>
         </ul>
         <ul class="icons-nav">
-            <li><i class="bi bi-person-fill"></i></li>
-            <li><i class="bi bi-handbag-fill"></i></li>
+            <a href="{% url "perfil:criar" %}"><i class="bi bi-person-fill"></i></a>
+            <a href="{% url "produto:carrinho" %}"><i class="bi bi-handbag-fill"></i></a>
         </ul>
         <!-- <ul class="search-nav">
             <li>Carrinho</li>

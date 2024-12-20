@@ -12,16 +12,16 @@
             
             <table class="products-table">
                 <tr class="title-table">
-                    <th>Imagem</th>   
-                    <th>Produto</th>   
-                    <th>Variação</th>   
-                    <th>Quantidade</th>   
+                    <th>Product</th>   
+                    <th>Name</th>   
+                    <th>Variation</th>   
+                    <th>Amount</th>   
                     <th>Total</th>  
                     <th></th> 
                 </tr>
 
                 {% for produto in request.session.cart.values %}
-                    <tr class="teste">
+                    <tr class="cart-product">
                         <td class="img">
                             <img src="{% get_media_prefix %}{{ produto.image }}" alt="{{ produto.product_name }}">
                         </td>
