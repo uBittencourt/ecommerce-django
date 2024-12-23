@@ -129,3 +129,6 @@ class Lista(DispatchLoginRequiredMixin ,ListView):
     template_name = 'pedido/lista.html'
     paginate_by = 10
     ordering = ['-id']
+
+
+# TODO: COLOCAR 'PEDIDOS' NA NAV / FAZER PÁGINAS DE LISTA E DETALHE PEDIDOS

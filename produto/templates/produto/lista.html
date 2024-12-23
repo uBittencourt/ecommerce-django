@@ -22,30 +22,34 @@
                 </div>
             </div>
 
-            <div class="products">
-                {% for produto in produtos %}
-                <div class="product-card">
-                    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-                    <div class="text-card">
-                        <p>{{ produto.nome }}</p>  
-                        {% if produto.preco_marketing_promocional %}
-                            <div class='product-price'>
-                                <p class='price'>{{ produto.preco_marketing_promocional|formata_preco }}</p>
-                                <p class='price text-muted'>{{ produto.preco_marketing|formata_preco }}</p>
-                            </div>
-                        {% else %}
-                            <div class='product-price'>
-                                <p class='price'>{{ produto.preco_marketing|formata_preco }}</p>
-                            </div>
-                        {% endif %}
+            {% if produtos %}
+                <div class="products">
+                    {% for produto in produtos %}
+                    <div class="product-card">
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                        <div class="text-card">
+                            <p>{{ produto.nome }}</p>  
+                            {% if produto.preco_marketing_promocional %}
+                                <div class='product-price'>
+                                    <p class='price'>{{ produto.preco_marketing_promocional|formata_preco }}</p>
+                                    <p class='price text-muted'>{{ produto.preco_marketing|formata_preco }}</p>
+                                </div>
+                            {% else %}
+                                <div class='product-price'>
+                                    <p class='price'>{{ produto.preco_marketing|formata_preco }}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'produto:detalhe' produto.slug %}">
+                            <button>Buy Now</button>
+                        </a>
                     </div>
-                    <a href="{% url 'produto:detalhe' produto.slug %}">
-                        <button>Buy Now</button>
-                    </a>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
-            {% include "global/partials/pagination.html" %}
+                {% include "global/partials/pagination.html" %}
+            {% else %}
+                <h1 class="not-found">Product Not Found</h1>
+            {% endif %}
         </div>
     </section>
 

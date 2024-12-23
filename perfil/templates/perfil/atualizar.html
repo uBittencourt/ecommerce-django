@@ -1,6 +1,19 @@
-{% extends "perfil/criar.html" %}
+{% extends "global/base.html" %}
+{% load crispy_forms_tags %}
 
-{% block title-registration %}
-    <h1>Atualizar Dados</h1>
-    <p>Altere as informações que deseja abaixo!</p>
-{% endblock title-registration %}
+{% block title %}Perfil{% endblock title %}
+
+{% block content %}
+    <section class="login-registration">
+        <div class='registration appear'>
+            <h1>Update Data</h1>
+            
+            <form method='POST' action="">
+                {% csrf_token %}
+                {{ userform|crispy }}
+                {{ perfilform|crispy }}
+                <button class='create-btn' type='submit'>Update</button>
+            </form>
+        </div>
+    </section>
+{% endblock content %}

@@ -35,3 +35,20 @@ document.addEventListener('DOMContentLoaded', function(){
         model.classList.remove('more-products')
     }
 })
+
+function toggleCreate(){
+    var divLogin = document.querySelector('.login');
+    var divRegistration = document.querySelector('.registration');
+
+    if (divRegistration.classList.contains('appear') == false){
+        divRegistration.classList.add('appear')
+        divRegistration.classList.remove('delete')
+        divLogin.classList.remove('appear')
+        divLogin.classList.add('delete')
+    } else {
+        divRegistration.classList.remove('appear')
+        divRegistration.classList.add('delete')
+        divLogin.classList.add('appear')
+        divLogin.classList.remove('delete')
+    }
+}

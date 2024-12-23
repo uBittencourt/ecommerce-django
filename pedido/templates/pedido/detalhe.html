@@ -1,0 +1,58 @@
+{% extends "global/base.html" %}
+{% load omfilters %}
+{% load static %}
+
+{% block content %}
+    <section class="order-detail">
+        <h1>{{ pedido }}</h1>
+        <div class="detail-informations">
+            <ul class="order-detail-title">
+                <li>Number Order: </li>
+                <li>Qtd. Items: </li>
+            </ul>
+            <ul class="order-detail-information">
+                <li>{{ pedido.id }}</li>
+                <li>{{ pedido.qtd_total }}</li>
+            </ul>
+            <ul class="order-detail-title">
+                <li>Total: </li>
+                <li>Status: </li>
+            </ul>
+            <ul class="order-detail-information">
+                <li>{{ pedido.total|formata_preco }}</li>
+                <li>{{ pedido.get_status_display }}</li>
+            </ul>
+        </div>
+        <div class="cart purchase-summary">
+            <table class="products-table">
+                <tr class="title-table">
+                    <th>Product</th>   
+                    <th>Name</th>   
+                    <th>Variation</th>   
+                    <th>Amount</th>   
+                    <th>Total</th>  
+                </tr>
+
+                {% for produto in pedido.itempedido_set.all %}
+                    <tr class="cart-product">
+                        <td class="img">
+                            <img src="{% get_media_prefix %}{{ produto.imagem }}" alt="{{ produto.produto }}">
+                        </td>
+                        <td>
+                            {{ produto.produto }}
+                        </td>
+                        <td>{{ produto.variacao }}</td>
+                        <td>{{ produto.quantidade }}x</td>
+
+                        {% if produto.preco_promocional %}
+                            <td>{{ produto.preco_promocional|formata_preco }}</td>
+                        {% else %}    
+                            <td>{{ produto.preco|formata_preco }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="line"></div>
+    </section>
+{% endblock content %}

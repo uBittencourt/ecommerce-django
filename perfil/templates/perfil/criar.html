@@ -4,35 +4,37 @@
 {% block title %}Perfil{% endblock title %}
 
 {% block content %}
-    {% if not request.user.is_authenticated %}
-        <div>
-            <h1>Login</h1>
-            <p>Já possui conta? Basta apenas logar abaixo!</p>
+    <section class="login-registration">
+        {% if not request.user.is_authenticated %}
+            <div class="login appear">
+                <h1>Login</h1>
+
+                <form method='POST' action="{% url "perfil:login" %}">
+                    {% csrf_token %}
+                    <label>Username: </label>
+                    <input type='text' name='username'> 
+                
+                    <label>Password:</label>
+                    <input type='password' name='password'> 
+
+                    <button class='create-btn' type='submit'>Join</button>
+                </form>
+
+                <button class="change-btn" onclick="toggleCreate()">Don't have an account?</button>
+            </div>
+        {% endif %}
+
+        <div class='registration delete'>
+            <h1>Registration</h1>
+            
+            <form method='POST' action="">
+                {% csrf_token %}
+                {{ userform|crispy }}
+                {{ perfilform|crispy }}
+                <button class='create-btn' type='submit'>Create</button>
+            </form>
+
+            <button class="change-btn" onclick="toggleCreate()">Already have an account?</button>
         </div>
-
-        <form method='POST' action="{% url "perfil:login" %}">
-            {% csrf_token %}
-            <label>Usuário</label>
-            <input type='text' name='username'> 
-        
-            <label>Senha</label>
-            <input type='password' name='password'> 
-
-            <button type='submit'>Enviar</button>
-        </form>
-    {% endif %}
-
-    <div>
-        {% block title-registration %}
-            <h1>Cadastro</h1>
-            <p>Não tem conta? Utilize o formulário abaixo e crie já!</p>
-        {% endblock title-registration %}
-        
-        <form method='POST' action="">
-            {% csrf_token %}
-            {{ userform|crispy }}
-            {{ perfilform|crispy }}
-            <button type='submit'>Enviar</button>
-        </form>
-    </div>
+    </section>
 {% endblock content %}

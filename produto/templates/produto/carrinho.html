@@ -5,10 +5,10 @@
 {% block content %}
     <section class="cart">
         {% if request.session.cart %}
-            <div>
+            {% comment %} <div>
                 <h1>Carrinho de Compras</h1>
                 <p>Aqui estão os produtos que você escolheu</p>
-            </div>
+            </div> {% endcomment %}
             
             <table class="products-table">
                 <tr class="title-table">
@@ -19,7 +19,7 @@
                     <th>Total</th>  
                     <th></th> 
                 </tr>
-
+                
                 {% for produto in request.session.cart.values %}
                     <tr class="cart-product">
                         <td class="img">
@@ -40,14 +40,16 @@
                         {% endif %}
                         <td>
                             <a href="{% url 'produto:remover' %}?vid={{ produto.variation_id }}">
-                                Remover
+                                <i class="bi bi-x-circle-fill"></i>
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
             
-            <table class="pay-table">
+            <div class="line"></div>
+            
+            {% comment %} <table class="pay-table">
                 <tr>
                     <td>Total</td>
                     <td>{{ request.session.cart|cart_totals|formata_preco }}</td>
@@ -63,7 +65,24 @@
                         {% endif %}
                     </td>
                 </tr>
-            </table>
+            </table> {% endcomment %}
+            <div class='pay-table'>
+                <div class='pay-index'>
+                    <h3>Total Cart</h3>
+                    <p>{{ request.session.cart|cart_totals|formata_preco }}</p>
+                </div>
+                <div class='pay-btn'>
+                    {% if not request.user.is_authenticated %}
+                        <a href="{% url "perfil:criar" %}">
+                            <button>Confirm Purchase</button>
+                        </a>
+                    {% else %}
+                        <a href="{% url "produto:finalizar" %}">
+                            <button>Confirm Purchase</button>
+                        </a>    
+                    {% endif %}
+                </div>
+            </div>
         {% else %}
             <div>
                 <h1>Carrinho de Compras</h1>
