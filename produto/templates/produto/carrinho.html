@@ -5,11 +5,7 @@
 {% block content %}
     <section class="cart">
         {% if request.session.cart %}
-            {% comment %} <div>
-                <h1>Carrinho de Compras</h1>
-                <p>Aqui estão os produtos que você escolheu</p>
-            </div> {% endcomment %}
-            
+
             <table class="products-table">
                 <tr class="title-table">
                     <th>Product</th>   
@@ -36,7 +32,7 @@
                         {% if produto.quantitative_promotional_price %}
                             <td>{{ produto.quantitative_promotional_price|formata_preco }}</td>
                         {% else %}    
-                            <td>{{ produto.quantitative__price|formata_preco }}</td>
+                            <td>{{ produto.quantitative_price|formata_preco }}</td>
                         {% endif %}
                         <td>
                             <a href="{% url 'produto:remover' %}?vid={{ produto.variation_id }}">
@@ -49,23 +45,6 @@
             
             <div class="line"></div>
             
-            {% comment %} <table class="pay-table">
-                <tr>
-                    <td>Total</td>
-                    <td>{{ request.session.cart|cart_totals|formata_preco }}</td>
-                    <td class="pay-btn">
-                        {% if not request.user.is_authenticated %}
-                            <a href="{% url "perfil:criar" %}">
-                                <button>Comprar</button>
-                            </a>
-                        {% else %}
-                            <a href="{% url "produto:finalizar" %}">
-                                <button>Comprar</button>
-                            </a>    
-                        {% endif %}
-                    </td>
-                </tr>
-            </table> {% endcomment %}
             <div class='pay-table'>
                 <div class='pay-index'>
                     <h3>Total Cart</h3>
@@ -84,7 +63,7 @@
                 </div>
             </div>
         {% else %}
-            <div>
+            <div class="cart-title">
                 <h1>Carrinho de Compras</h1>
                 <p>Seu carrinho está vazio, adicione produtos.</p>
             </div>

@@ -95,7 +95,7 @@ main{
 }
 
 .section-products{
-    height: 175vh;
+    height: 176vh;
     background-color: black;
 }
 
@@ -234,7 +234,7 @@ main{
 footer{
     padding: var(--margin-interface);
     background-color: #F1EDED;
-    padding-top: 7%;
+    padding-top: 8%;
 }
 
 .footer-content{
@@ -421,6 +421,10 @@ footer{
     background-color: #F1EDED;
 }
 
+.cart-title{
+    margin-top: 5vh;
+}
+
 .title-table th{
     text-align: center;
     font-size: 20px;
@@ -546,12 +550,18 @@ footer{
 
 /* ESTILIZAÇÃO DAS MENSAGENS */
 .message {
-    margin: var(--spacing) auto;
-    margin-top: calc(var(--spacing) * 2);
-    padding: var(--spacing);
-    text-align: center;
-    border-radius: var(--default-border-radius);
-    font-size: var(--smaller-font-size);
+    position: relative;
+    width: 90%;
+    height: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 70px;
+    margin-top: 15vh;
+    margin-bottom: -15vh;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .message.success {
