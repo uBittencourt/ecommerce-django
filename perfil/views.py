@@ -55,6 +55,7 @@ class BasePerfil(View):
 
 class Criar(BasePerfil):
     def post(self, *args, **kwargs):
+        # print(self.request.POST)
         if not self.userform.is_valid() or not self.perfilform.is_valid():
             messages.error(
                 self.request,
@@ -115,7 +116,7 @@ class Criar(BasePerfil):
             'Cadastro realizado com sucesso!'
         )
 
-        return redirect('perfil:criar')
+        return redirect('produto:carrinho')
 
 
 class Update(BasePerfil):

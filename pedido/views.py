@@ -108,7 +108,7 @@ class Fechar(View):
         del self.request.session['cart']
         return redirect(
             reverse(
-                'pedido:pagar',
+                'pedido:detalhe',
                 kwargs={
                     'pk': pedido.pk
                 }    

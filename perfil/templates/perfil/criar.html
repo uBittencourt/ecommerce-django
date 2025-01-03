@@ -27,7 +27,7 @@
         <div class='registration delete'>
             <h1>Registration</h1>
             
-            <form method='POST' action="">
+            <form method='POST' action="{% url "perfil:criar" %}">
                 {% csrf_token %}
                 {{ userform|crispy }}
                 {{ perfilform|crispy }}
